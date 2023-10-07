@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CTF on IamAlch3mist blogs</title>
+    <link>https://IamAlch3mist.github.io/tags/ctf/</link>
+    <description>Recent content in CTF on IamAlch3mist blogs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Oct 2023 21:08:00 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Payatu hiring CTF creds writeup</title>
+      <link>https://IamAlch3mist.github.io/posts/creds_writeup/</link>
+      <pubDate>Sat, 07 Oct 2023 21:08:00 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/creds_writeup/</guid>
+      <description>https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&#34;&gt;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

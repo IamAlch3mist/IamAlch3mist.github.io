@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hardware hacking on IamAlch3mist blogs</title>
+    <link>https://IamAlch3mist.github.io/tags/hardware-hacking/</link>
+    <description>Recent content in hardware hacking on IamAlch3mist blogs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Oct 2023 21:09:09 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/hardware-hacking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Firmware extraction from SPI flash</title>
+      <link>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</link>
+      <pubDate>Sat, 07 Oct 2023 21:09:09 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</guid>
+      <description>https://hacklido.com/blog/379-firmware-extraction-from-spi-flash</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&#34;&gt;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Hardware Hacking : Getting UART Shells</title>
+      <link>https://IamAlch3mist.github.io/posts/uart_shell/</link>
+      <pubDate>Sat, 07 Oct 2023 21:06:55 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/uart_shell/</guid>
+      <description>https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&#34;&gt;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

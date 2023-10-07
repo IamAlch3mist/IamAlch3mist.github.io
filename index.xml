@@ -6,7 +6,51 @@
     <description>Recent content on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Oct 2023 20:42:01 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Oct 2023 21:10:21 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>IoT binary analysis &amp; emulation part -1</title>
+      <link>https://IamAlch3mist.github.io/posts/binary_emulation_pt1/</link>
+      <pubDate>Sat, 07 Oct 2023 21:10:21 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/binary_emulation_pt1/</guid>
+      <description>https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1&#34;&gt;https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Firmware extraction from SPI flash</title>
+      <link>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</link>
+      <pubDate>Sat, 07 Oct 2023 21:09:09 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</guid>
+      <description>https://hacklido.com/blog/379-firmware-extraction-from-spi-flash</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&#34;&gt;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Payatu hiring CTF creds writeup</title>
+      <link>https://IamAlch3mist.github.io/posts/creds_writeup/</link>
+      <pubDate>Sat, 07 Oct 2023 21:08:00 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/creds_writeup/</guid>
+      <description>https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&#34;&gt;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Hardware Hacking : Getting UART Shells</title>
+      <link>https://IamAlch3mist.github.io/posts/uart_shell/</link>
+      <pubDate>Sat, 07 Oct 2023 21:06:55 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/uart_shell/</guid>
+      <description>https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells</description>
+      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&#34;&gt;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Hello world</title>
       <link>https://IamAlch3mist.github.io/posts/helloworld/</link>

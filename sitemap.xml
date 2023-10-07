@@ -2,17 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://IamAlch3mist.github.io/tags/firmware-analysis/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/iot/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/binary_emulation_pt1/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/</loc>
+    <lastmod>2023-10-07T21:10:21+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</loc>
+    <lastmod>2023-10-07T21:09:09+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/hardware-hacking/</loc>
+    <lastmod>2023-10-07T21:09:09+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/creds-writeup/</loc>
+    <lastmod>2023-10-07T21:08:00+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/ctf/</loc>
+    <lastmod>2023-10-07T21:08:00+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/creds_writeup/</loc>
+    <lastmod>2023-10-07T21:08:00+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/uart_shell/</loc>
+    <lastmod>2023-10-07T21:06:55+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/uart/</loc>
+    <lastmod>2023-10-07T21:06:55+05:30</lastmod>
+  </url><url>
     <loc>https://IamAlch3mist.github.io/posts/helloworld/</loc>
     <lastmod>2023-10-07T20:42:01+05:30</lastmod>
   </url><url>
-    <loc>https://IamAlch3mist.github.io/</loc>
-    <lastmod>2023-10-07T20:42:01+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/posts/</loc>
-    <lastmod>2023-10-07T20:42:01+05:30</lastmod>
-  </url><url>
     <loc>https://IamAlch3mist.github.io/categories/</loc>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/tags/</loc>
   </url>
 </urlset>

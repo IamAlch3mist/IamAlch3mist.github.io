@@ -6,7 +6,158 @@
     <description>Recent content in Posts on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 May 2024 17:50:19 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Jun 2024 01:10:42 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nRF51 readback protection (RBPCONF) bypass</title>
+      <link>https://IamAlch3mist.github.io/posts/nrf51_code_readout_bypass/</link>
+      <pubDate>Sat, 15 Jun 2024 01:10:42 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/posts/nrf51_code_readout_bypass/</guid>
+      <description>Introduction Hey everyone, in this blog post, we will look at readback protection, in a microcontroller and how to bypass it, especially in the nRF51822. Recently, I learned a few things about readout protection bypasses on MCUs (I use the terms MCU and microcontroller interchangeably throughout this series). There is a reason I particularly chose this vulnerability, named Load Instruction Exploitation, for this demonstration.
+To exploit this vulnerability, we don&amp;rsquo;t have to perform any complex glitching when reading the UICR configuration register.</description>
+      <content>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hey everyone, in this blog post, we will look at readback protection, in a microcontroller and how to bypass it, especially in the nRF51822. Recently, I learned a few
+things about readout protection bypasses on MCUs (I use the terms MCU and microcontroller interchangeably throughout this series). There is a reason I particularly chose this vulnerability, named &lt;strong&gt;Load Instruction Exploitation&lt;/strong&gt;, for this demonstration.&lt;/p&gt;
+&lt;p&gt;To exploit this vulnerability, we don&amp;rsquo;t have to perform any complex glitching when reading the UICR configuration register. Instead, we can exploit this vulnerability purely from
+the software side. &lt;code&gt;I don&#39;t own a ChipWhisperer :\&lt;/code&gt; so no chips have been abused here.&lt;/p&gt;
+&lt;p&gt;The techniques shown here are not any novel exploit methods; the knowledge is publicly available for free, as mentioned in the references section. This blog is essentially my
+attempt
+at replicating the attacks myself. In the future, if I own a ChipWhisperer &lt;code&gt;you, reader, can donate me one :)&lt;/code&gt;, I&amp;rsquo;ll write about readback bypass on nRF52 series and other
+microcontrollers through glitching.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll try to write this blog as simply as possible at a beginner level, so you don&amp;rsquo;t need any prior knowledge of this topic to follow along. This approach will significantly
+increase the length of this blog post.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Hardware required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;nRF51822 module&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;stlink-v2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;what-is-readback-protection&#34;&gt;What is readback protection?&lt;/h1&gt;
+&lt;p&gt;By now, you may be wondering what readback protection is. As the name implies, it prevents reading code back from the flash memory. Imagine you are an OEM developing proprietary
+hardware using an ARM MCU that runs your firmware code. You don&amp;rsquo;t want hackers to reverse engineer your firmware, you might be storing private keys or some critical data in your firmware and
+don&amp;rsquo;t want hackers to access this data or to prevent piracy.&lt;/p&gt;
+&lt;p&gt;Microcontrollers include flash/SRAM embedded inside the controller, allowing us to easily read, write, program, or reprogram the MCU if we have the appropriate tools through a
+debug interface like JTAG/SWD. This is an intended functionality of the MCU. To prevent the reading and writing of preprogrammed controllers, readback protection is used to partially or permanently disable the debugging interface. This is sometimes referred to as readout protection, code readout protection, RDP, or ROP, varying across manufacturers. However, the functionality is essentially the same: to prevent users or malicious attackers from reading or modifying the firmware.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Note: Not every MCU supports readout protection; some cheap clone or Chinese MCUs may not support readout protection at all.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A well-known incident in the industry is the video by Stacksmashing on &lt;strong&gt;&lt;a href=&#34;https://youtu.be/_E0PWQvW-14?si=Jj3cP-n7ndOjX7mZ&#34;&gt;hacking Apple AirTag&lt;/a&gt;&lt;/strong&gt; He bypassed readback protection on an nRF52
+controller by glitching the MCU.&lt;/p&gt;
+&lt;h1 id=&#34;nrf51-readback-protection--internals&#34;&gt;nRF51 readback protection &amp;amp; Internals&lt;/h1&gt;
+&lt;p&gt;For this attack, we chose the nRF51822 MCU from the nRF51 series, which is vulnerable to &lt;strong&gt;Load Instruction Exploitation&lt;/strong&gt;. A full development kit may cost more, at least to me, so
+I chose this cheap &lt;strong&gt;&lt;a href=&#34;https://robu.in/product/nrf-51822-ble-4-0-bluetooth-module-wireless-low-power-development-board/&#34;&gt;nRF51822 Bluetooth module&lt;/a&gt;&lt;/strong&gt; for around $10, which has the
+MCU we need.&lt;/p&gt;
+&lt;p&gt;In the beginning, I mentioned it is a purely software-based attack. What I meant is that the actual exploitation process is software-based. So, we need a vulnerable target and an
+SWD debugger to actually perform this attack. I&amp;rsquo;m using Tigard to interface with SWD; alternatively, an STLINK debugger will also work.&lt;/p&gt;
+&lt;p&gt;By now, you have a good understanding of the importance of readback protection. Let&amp;rsquo;s go in-depth by understanding the readback protection implementation in our MCU. In our nRF51 controller,
+the code section is divided into two regions: code region 0 (CR0) and code region 1 (CR1). &lt;strong&gt;CR0 starts from address: 0x00000000&lt;/strong&gt; until the code area address in the CLENR0
+register from the UICR register. We will take a look at the UICR in a while; the rest of the code area is referred to as region 1.&lt;/p&gt;
+&lt;p&gt;The User Information Configuration Register (UICR) is a register used for user-specific settings. Code readout protection can be enabled or disabled by modifying the value in
+RBPCONF, which is the configuration for readback-protection.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/uicr.png&#34; alt=&#34;UICR&#34;&gt;&lt;/p&gt;
+&lt;p&gt;As we can see from the table, UICR is located at the base address of &lt;strong&gt;0x10001000&lt;/strong&gt;. We are only interested in RBPCONF, which is located at the base address with an offset of 0x4,
+essentially at &lt;strong&gt;0x10001004&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;nRF51 supports 3 levels of readback protection&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No protection at all&lt;/li&gt;
+&lt;li&gt;Protect code region 0.&lt;/li&gt;
+&lt;li&gt;Protect all code in mcu.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We are not interested in level 1 with no protection at all; we can easily extract firmware through SWD.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Note: These levels are defined by me for the sake of this blog post and are not mentioned in the official datasheet by Nordic.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Level 2: PR0 - Protect region 0&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/1.png&#34; alt=&#34;RBPCONF&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at the RBBCONF table. We can see that the Field PR0 protection region 0 can be enabled by writing the value 0x00 at the ID A. If enabled, code running in CR0 can
+read/write CR1 region, RAM, peripherals, but code running on CR1 or SWD can&amp;rsquo;t read/write CR0 region. Disabled by writing the value 0xFF at ID A. So, even with SWD, we are limited to reading code running on code region 1.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Level 3: PALL - Protect ALL&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/2.png&#34; alt=&#34;PALL&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Next, in the Field PALL (protect all), it can be enabled by writing the value 0x00 at ID B. If enabled, all the code region 0 and code region 1, RAM, and peripherals in the device can&amp;rsquo;t be read/written from SWD, which is more secure than PR0. Disabled by writing the value 0xFF at ID B, the memory protection unit will take care of it. Fortunately, unlike STM32&amp;rsquo;s RDP level 2, nRF51 doesn&amp;rsquo;t disable SWD at the PALL or PR0 level. I highly recommend reading the reference manual for a better understanding.&lt;/p&gt;
+&lt;p&gt;So we can still read/write registers, control the program counter, etc., which is enough to bypass code readout protection. This will be explained in the Load Instruction
+Exploitation section.&lt;/p&gt;
+&lt;p&gt;Our nRF51822 is based on ARM Cortex-M0 32-bit processor with 256KB Flash and 32KB RAM. So, we need to dump the entire 256KB flash memory region.&lt;/p&gt;
+&lt;h1 id=&#34;swd-debugging-with-stlink-v2&#34;&gt;SWD debugging with stlink-v2&lt;/h1&gt;
+&lt;p&gt;Initially, I began debugging the MCU with Tigard, but I couldn&amp;rsquo;t get the SWD interface on my MCU to work. So, I switched to an ST-Link V2 clone. Using OpenOCD, I successfully achieved debugging through both Telnet and GDB.&lt;/p&gt;
+&lt;p&gt;I connected the nRF51 and ST-Link using the following pin configuration. Since this nRF mini module doesn&amp;rsquo;t have its own power source or USB port, I have to power it using the ST-Link at 3.3 volts.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;nrf51822&lt;/th&gt;
+&lt;th&gt;stlink&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SWDO&lt;/td&gt;
+&lt;td&gt;SWDIO&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SWCLK&lt;/td&gt;
+&lt;td&gt;SWCLK&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3.3v&lt;/td&gt;
+&lt;td&gt;3.3v&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/target/nrf51.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/3.png&#34; alt=&#34;openocd&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Telnet is running on port 4444, while the GDB server runs on port 3333. Through Telnet, we can halt the CPU, display memory content, and ultimately dump the firmware.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/4.png&#34; alt=&#34;cpu halt&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/5.png&#34; alt=&#34;display memory contents&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/6.png&#34; alt=&#34;firmware dump&#34;&gt;&lt;/p&gt;
+&lt;p&gt;At this stage, there is no protection, so we can essentially do whatever we want. In Image 2, we dumped two memory addresses: one is the master stack pointer at offset 0x0, and the other is the reset vector at offset 0x4, which is essentially a pointer to the entry point and plays a crucial role in the Load Instruction Exploitation process. To enable PALL, set the value 0x00 at the ID B field in the RBPCONF register in UICR, as mentioned in the documentation.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;flash fillw 0x10001004 0xFFFF00FF 0x01
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/7.png&#34; alt=&#34;enable PALL&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now that we have enabled PALL, the previous commands we used to display the memory contents and read the firmware code are no longer working.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/8.png&#34; alt=&#34;enable PALL&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;load-instruction-exploitation&#34;&gt;Load Instruction Exploitation&lt;/h1&gt;
+&lt;p&gt;The vulnerability was originally identified by IncludeSecurity on the nRF51 series MCUs. However, they did not name the vulnerability in their blog. The paper &amp;ldquo;One Exploit to Rule Them All?&amp;rdquo; exploited the same attack on the CKS32F103 MCU.&lt;/p&gt;
+&lt;p&gt;In PALL, the highest readback protection level possible for this MCU, we can still access and write values to registers. This is where the vulnerability arises. To exploit this vulnerability, we need a gadget that can load a value referenced by one register into another register.&lt;/p&gt;
+&lt;p&gt;For example &lt;strong&gt;LDR r0, [r0]&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We set R0 to an arbitrary address we want to read. After execution, R0 contains the value pointed to by the original R0. For example, if we set R0 to 0x00000000, the master stack pointer value in the firmware is loaded into the R0 register. Setting R0 to 0x00000004 loads the reset vector into R0. By doing this, we can read the entire firmware in 4-byte chunks.&lt;/p&gt;
+&lt;p&gt;Since we don&amp;rsquo;t have the firmware dump, we have to blindly find the gadget. Initially, after halting the CPU, all the general-purpose registers hold the value 0xFFFFFFFF, which is not useful for us.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/9.png&#34; alt=&#34;cpu halt&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To find a suitable gadget, we have to manually set values for all the general-purpose registers and monitor their values for every instruction executed.&lt;/p&gt;
+&lt;p&gt;luckily, after executing the first instruction, we can see a recognizable value being loaded into the R3 register, which is 0x10001004, the PALL field from the RBPCONF register. This loaded value in a register provided us with a suitable gadget.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/10.png&#34; alt=&#34;gadget&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Using this logic, I halted the CPU again, executed one instruction, and changed the value in R3 to the offset 0x4. Continuing the execution loaded the reset vector, a known value, into R3. Since the controller starts execution from the reset vector after a reset, the PC contains the address of the reset vector. This approach allows us to read the entire firmware in 4-byte chunks.&lt;/p&gt;
+&lt;p&gt;If you noticed, when we halted the CPU, the PC register held the value &lt;strong&gt;0x0012b98&lt;/strong&gt;, which is the reset vector. However, when we dumped using our gadget, the value was &lt;strong&gt;0x0012b99&lt;/strong&gt;. If you&amp;rsquo;re an ARM reverse engineer, you probably already know the answer. This MCU runs in thumb mode, where the last bit is used to choose the execution mode in ARM. Since ARM instructions are 4 bytes aligned (2 bytes for thumb mode), this difference doesn&amp;rsquo;t affect the program flow.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/11.png&#34; alt=&#34;reset vector leak&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Reading 4 bytes like this for a 256KB firmware would take ages. So, I wrote a simple &lt;strong&gt;&lt;a href=&#34;https://github.com/IamAlch3mist/nrf51_readback_protection_bypass&#34;&gt;dumper script&lt;/a&gt;&lt;/strong&gt; that automates the process of extracting the 4-byte chunks. By modifying the code to reach a suitable gadget, we can use the script on real-life targets as well.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/12.png&#34; alt=&#34;firmware dumping&#34;&gt;&lt;/p&gt;
+&lt;p&gt;It took almost 1 hour to dump the entire 256KB firmware. Considering I wrote the script in just an hour, I would say it&amp;rsquo;s fairly efficient.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/13.png&#34; alt=&#34;firmware dump success&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You might be thinking, &amp;ldquo;Now that we&amp;rsquo;ve extracted the firmware, what&amp;rsquo;s next? Dive into reverse engineering?&amp;rdquo; Well, the answer depends. In PALL mode, we are allowed to erase the flash contents entirely, and the UICR register will be reset. With this capability, we can upload the dumped firmware back to the device without PALL or PR0 protection. This allows us to conduct dynamic analysis using SWD, which can be really helpful in bare-metal firmware analysis.&lt;/p&gt;
+&lt;h1 id=&#34;ldr-gadget&#34;&gt;LDR gadget&lt;/h1&gt;
+&lt;p&gt;We were fortunate to have a gadget that loads a 32-bit value pointed to by R3 into the R3 register. Opening the dumped firmware in Ghidra, we set the base address to 0x00000000 since the flash starts there for this MCU. Additionally, we selected the processor architecture as Cortex to accurately locate the proper reset vector.&lt;/p&gt;
+&lt;p&gt;At the beginning, at address 0x4, the reset vector points to LAB_00012b98+1 in the listing window.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/14.png&#34; alt=&#34;reset vector&#34;&gt;&lt;/p&gt;
+&lt;p&gt;At address 0x00012b9a, the instruction &amp;ldquo;LDR r3, [r3, #0]&amp;rdquo; is our gadget, which essentially loads a 32-bit value pointed to by R3 into R3 itself. This instruction is exactly what we needed and used blindly.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://IamAlch3mist.github.io/img/nrf51_crp_bypass/15.png&#34; alt=&#34;listing window&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;In this blog post, we successfully bypassed the readback protection on the nRF51 series. As I mentioned earlier, I will write about different logical bypass techniques to overcome readout protection in various MCUs. I highly recommend reading the original research mentioned in the reference section for a better understanding.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.includesecurity.com/2015/11/firmware-dumping-technique-for-an-arm-cortex-m0-soc/&#34;&gt;https://blog.includesecurity.com/2015/11/firmware-dumping-technique-for-an-arm-cortex-m0-soc/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.usenix.org/system/files/woot20-paper-obermaier.pdf&#34;&gt;https://www.usenix.org/system/files/woot20-paper-obermaier.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://robu.in/product/nrf-51822-ble-4-0-bluetooth-module-wireless-low-power-development-board/&#34;&gt;https://robu.in/product/nrf-51822-ble-4-0-bluetooth-module-wireless-low-power-development-board/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://youtu.be/_E0PWQvW-14?si=Jj3cP-n7ndOjX7mZ&#34;&gt;https://youtu.be/_E0PWQvW-14?si=Jj3cP-n7ndOjX7mZ&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://infocenter.nordicsemi.com/pdf/nRF51_RM_v3.0.1.pdf?cp=6_2_0&#34;&gt;https://infocenter.nordicsemi.com/pdf/nRF51_RM_v3.0.1.pdf?cp=6_2_0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.pentestpartners.com/security-blog/nrf51822-code-readout-protection-bypass-a-how-to/&#34;&gt;https://www.pentestpartners.com/security-blog/nrf51822-code-readout-protection-bypass-a-how-to/&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Introduction to shellcode execution</title>
       <link>https://IamAlch3mist.github.io/posts/into_to_shellcode_exec/</link>

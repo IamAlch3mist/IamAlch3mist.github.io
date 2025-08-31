@@ -6,7 +6,27 @@
     <description>Recent content in Tags on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Jun 2024 01:10:42 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Jun 2025 05:00:35 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>android-kernel-exploit</title>
+      <link>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</link>
+      <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>use-after-free</title>
+      <link>https://IamAlch3mist.github.io/tags/use-after-free/</link>
+      <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
+      
+      <guid>https://IamAlch3mist.github.io/tags/use-after-free/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>ARM reverse engineering</title>
       <link>https://IamAlch3mist.github.io/tags/arm-reverse-engineering/</link>
@@ -33,26 +53,6 @@
       <pubDate>Sat, 15 Jun 2024 01:10:42 +0530</pubDate>
       
       <guid>https://IamAlch3mist.github.io/tags/iot-security/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>malware development</title>
-      <link>https://IamAlch3mist.github.io/tags/malware-development/</link>
-      <pubDate>Sun, 12 May 2024 17:50:19 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/tags/malware-development/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>reverse engineering</title>
-      <link>https://IamAlch3mist.github.io/tags/reverse-engineering/</link>
-      <pubDate>Sun, 12 May 2024 17:50:19 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/tags/reverse-engineering/</guid>
       <description></description>
       <content></content>
     </item>

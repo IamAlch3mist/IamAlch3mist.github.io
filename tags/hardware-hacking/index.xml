@@ -164,8 +164,9 @@ Exploitation section.&lt;/p&gt;
       <pubDate>Sat, 07 Oct 2023 21:09:09 +0530</pubDate>
       
       <guid>https://IamAlch3mist.github.io/posts/firmware_extraction_spi/</guid>
-      <description>https://hacklido.com/blog/379-firmware-extraction-from-spi-flash</description>
-      <content>&lt;p&gt;&lt;a href=&#34;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&#34;&gt;https://hacklido.com/blog/379-firmware-extraction-from-spi-flash&lt;/a&gt;&lt;/p&gt;
+      <description>Introduction I started fuzzing some random projects from github hoping to get some CVE. Rather than jumping into complex projects like a PDF library i opted to start with some simple applications so i choose this elf-parser https://github.com/TheCodeArtist/elf-parser/</description>
+      <content>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I started fuzzing some random projects from github hoping to get some CVE. Rather than jumping into complex projects like a PDF library i opted to start with some simple applications so i choose this elf-parser &lt;a href=&#34;https://github.com/TheCodeArtist/elf-parser/&#34;&gt;https://github.com/TheCodeArtist/elf-parser/&lt;/a&gt;&lt;/p&gt;
 </content>
     </item>
     

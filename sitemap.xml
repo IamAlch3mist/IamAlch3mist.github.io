@@ -2,31 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://IamAlch3mist.github.io/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/tags/kernel-exploit/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/tags/memory-leak/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/posts/oneplus_kernel_uaf_memoryleak/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/posts/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/tags/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
-    <loc>https://IamAlch3mist.github.io/tags/use-after-free/</loc>
-    <lastmod>2025-09-28T03:07:44+05:30</lastmod>
-  </url><url>
     <loc>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</loc>
     <lastmod>2025-06-06T05:00:35+05:30</lastmod>
   </url><url>
+    <loc>https://IamAlch3mist.github.io/</loc>
+    <lastmod>2025-06-06T05:00:35+05:30</lastmod>
+  </url><url>
     <loc>https://IamAlch3mist.github.io/posts/mhl_android_kernel_writeup/</loc>
+    <lastmod>2025-06-06T05:00:35+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/posts/</loc>
+    <lastmod>2025-06-06T05:00:35+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/</loc>
+    <lastmod>2025-06-06T05:00:35+05:30</lastmod>
+  </url><url>
+    <loc>https://IamAlch3mist.github.io/tags/use-after-free/</loc>
     <lastmod>2025-06-06T05:00:35+05:30</lastmod>
   </url><url>
     <loc>https://IamAlch3mist.github.io/tags/arm-reverse-engineering/</loc>

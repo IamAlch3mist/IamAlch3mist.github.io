@@ -6,23 +6,13 @@
     <description>Recent content in Tags on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Sep 2025 03:07:44 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Jun 2025 05:00:35 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>kernel-exploit</title>
-      <link>https://IamAlch3mist.github.io/tags/kernel-exploit/</link>
-      <pubDate>Sun, 28 Sep 2025 03:07:44 +0530</pubDate>
+      <title>android-kernel-exploit</title>
+      <link>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</link>
+      <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
       
-      <guid>https://IamAlch3mist.github.io/tags/kernel-exploit/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>memory-leak</title>
-      <link>https://IamAlch3mist.github.io/tags/memory-leak/</link>
-      <pubDate>Sun, 28 Sep 2025 03:07:44 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/tags/memory-leak/</guid>
+      <guid>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</guid>
       <description></description>
       <content></content>
     </item>
@@ -30,19 +20,9 @@
     <item>
       <title>use-after-free</title>
       <link>https://IamAlch3mist.github.io/tags/use-after-free/</link>
-      <pubDate>Sun, 28 Sep 2025 03:07:44 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/tags/use-after-free/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>android-kernel-exploit</title>
-      <link>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</link>
       <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
       
-      <guid>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</guid>
+      <guid>https://IamAlch3mist.github.io/tags/use-after-free/</guid>
       <description></description>
       <content></content>
     </item>

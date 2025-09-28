@@ -126,7 +126,7 @@
   <h1 class="post-title">
     <a href="https://IamAlch3mist.github.io/posts/oneplus_kernel_uaf_memoryleak/">Oneplus kernel memory leak and potential use after free</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2025-09-28</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">2 min read (417 words)</span></div>
+  <div class="post-meta"><time class="post-date">2025-09-28</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">2 min read (416 words)</span></div>
 
   
     <span class="post-tags">
@@ -145,7 +145,7 @@
   
 
   <div class="post-content"><div>
-        <p>I borrowed a OnePlus phone from a friend to experiment with the kernel. Since the kernel is open source, I started digging (hoping for an LPE). I found a couple more bugs they are for another blog post, but here’s a neat little memory leak that can be abused for DoS and can lead to use‑after‑free.</p>
+        <p>I borrowed a OnePlus phone from a friend to experiment with the kernel. Since the kernel is open source, I started digging (hoping for an LPE). I found a couple more bugs they are for another blog post, but here’s a neat little memory leak that can be abused for DoS and a potential use‑after‑free.</p>
 <p>I focused on vendor-specific drivers rather than the <a href="https://github.com/OnePlusOSS/android_kernel_oneplus_mt6893">mainline kernel</a>. The driver in question is: <a href="https://github.com/OnePlusOSS/android_kernel_oneplus_mt6893/blob/oneplus/MT6893_R_11.0/drivers/soc/oplus/midas/midas_dev.c"><code>drivers/soc/oplus/midas/midas_dev.c</code></a></p>
 <p>The driver exports the usual file operations with callbacks to open, close, mmap, and ioctl.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> file_operations midas_dev_fops <span style="color:#f92672">=</span> {

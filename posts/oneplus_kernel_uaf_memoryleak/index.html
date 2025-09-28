@@ -154,8 +154,8 @@
 	.mmap <span style="color:#f92672">=</span> midas_dev_mmap,
 	.unlocked_ioctl <span style="color:#f92672">=</span> midas_dev_ioctl,
 };
-</code></pre></div><p>On open the driver an allocation happens using kzalloc with the size of struct midas_priv_info and stored in the pointer info. At 2 the allocated info is stored in privat_data member of filp struct which is basically a void pointer.</p>
-<p>On close the info pointer is retrieved from the filp struct and passed to kfree.</p>
+</code></pre></div><p>On open the driver an allocation happens using kzalloc with the size of struct midas_priv_info and stored in the pointer info. At 2 the allocated info is stored in privat_data member of file struct which is basically a void pointer.</p>
+<p>On close the info pointer is retrieved from the file struct and passed to kfree.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">midas_dev_open</span>(<span style="color:#66d9ef">struct</span> inode <span style="color:#f92672">*</span>inode, <span style="color:#66d9ef">struct</span> file <span style="color:#f92672">*</span>filp)
 {
 	<span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -192,7 +192,7 @@ err_info_alloc:
 	kfree(info); <span style="color:#75715e">// use after free
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
-</code></pre></div><p>There are no locks or checks on in the filp-&gt;private_data. If the driver is opened multiple times (without properly closing prior handles). The filp-&gt;private_data pointer can be overwritten with a newly allocated info. Which results in memory leak.</p>
+</code></pre></div><p>There are no locks or checks on in the file-&gt;private_data. If the driver is opened multiple times (without properly closing prior handles). The file-&gt;private_data pointer can be overwritten with a newly allocated info. Which results in memory leak.</p>
 <p>On close the allocated memory is freed but file-&gt;private data holds reference to the info pointer and didn&rsquo;t set to NULL. Combined with the ability to open the driver multiple times leading to potential use-after-free.</p>
 <p>system user have permision to interact with the driver.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">OP515BL1:/data/local/tmp</span> <span style="color:#75715e"># ls -al /dev/midas_dev</span>

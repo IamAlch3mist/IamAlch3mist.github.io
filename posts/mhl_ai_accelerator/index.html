@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   
     <title>mobilehackinglab: Ai Accelerator kernel challenge writeup :: IamAlch3mist blogs</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="test" />
+<meta name="description" content="The whole secret lies in confusing the enemy, so that he cannot fathom our real intent - Sun Tzu
+Introduction I came across the post from mobilehackinglab an android kernel exploitation challenge and unsolved at defcon, (challenge accepted) having solved the previous challenge, but at the time the challenge dropped I&amp;rsquo;m touching grass in a remote location almost for a week so I couldn&amp;rsquo;t spend time on the challenge, until 3 later I came home and endup solving it." />
 <meta name="keywords" content=", " />
 
   <meta name="robots" content="noodp" />
 
-<link rel="canonical" href="https://IamAlch3mist.github.io/posts/mhl_ai_accelerator/" />
-
+<link rel="canonical" href="http://localhost:1313/posts/mhl_ai_accelerator/" />
 
 
 
 
 
   
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
   
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
   
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
   
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/styles.css">
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
 
 
 
 
-
-
-
-  <link rel="shortcut icon" href="https://IamAlch3mist.github.io/img/theme-colors/purple.png">
-  <link rel="apple-touch-icon" href="https://IamAlch3mist.github.io/img/theme-colors/purple.png">
-
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
 
 
 <meta name="twitter:card" content="summary" />
@@ -43,13 +74,14 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="mobilehackinglab: Ai Accelerator kernel challenge writeup">
-<meta property="og:description" content="test" />
-<meta property="og:url" content="https://IamAlch3mist.github.io/posts/mhl_ai_accelerator/" />
+<meta property="og:description" content="The whole secret lies in confusing the enemy, so that he cannot fathom our real intent - Sun Tzu
+Introduction I came across the post from mobilehackinglab an android kernel exploitation challenge and unsolved at defcon, (challenge accepted) having solved the previous challenge, but at the time the challenge dropped I&amp;rsquo;m touching grass in a remote location almost for a week so I couldn&amp;rsquo;t spend time on the challenge, until 3 later I came home and endup solving it." />
+<meta property="og:url" content="http://localhost:1313/posts/mhl_ai_accelerator/" />
 <meta property="og:site_name" content="IamAlch3mist blogs" />
 
   
   
-  <meta property="og:image" content="https://IamAlch3mist.github.io/">
+  <meta property="og:image" content="http://localhost:1313/">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -69,15 +101,15 @@
 
 
 </head>
-<body class="purple">
+<body>
 
 
-<div class="container center headings--one-size">
+<div class="container center">
 
   <header class="header">
   <div class="header__inner">
     <div class="header__logo">
-      <a href="https://IamAlch3mist.github.io/">
+      <a href="http://localhost:1313/">
   <div class="logo">
     Terminal
   </div>
@@ -124,18 +156,18 @@
     
 <article class="post">
   <h1 class="post-title">
-    <a href="https://IamAlch3mist.github.io/posts/mhl_ai_accelerator/">mobilehackinglab: Ai Accelerator kernel challenge writeup</a>
+    <a href="http://localhost:1313/posts/mhl_ai_accelerator/">mobilehackinglab: Ai Accelerator kernel challenge writeup</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2025-08-31</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">1 min read (4 words)</span></div>
+  <div class="post-meta"><time class="post-date">2025-08-31</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">7 min read (1377 words)</span></div>
 
   
     <span class="post-tags">
       
-      #<a href="https://IamAlch3mist.github.io/tags/mobilehackinglab/">mobilehackinglab</a>&nbsp;
+      #<a href="http://localhost:1313/tags/mobilehackinglab/">mobilehackinglab</a>&nbsp;
       
-      #<a href="https://IamAlch3mist.github.io/tags/android-kernel/">android-kernel</a>&nbsp;
+      #<a href="http://localhost:1313/tags/android-kernel/">android-kernel</a>&nbsp;
       
-      #<a href="https://IamAlch3mist.github.io/tags/exploit-development/">exploit-development</a>&nbsp;
+      #<a href="http://localhost:1313/tags/exploit-development/">exploit-development</a>&nbsp;
       
     </span>
   
@@ -145,29 +177,324 @@
   
 
   <div class="post-content"><div>
-        <p>hey everyone welcome to</p>
+        <p><strong>The whole secret lies in confusing the enemy, so that he cannot fathom our real intent</strong> - Sun Tzu</p>
+<h1 id="introduction">Introduction<a href="#introduction" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>I came across the post from mobilehackinglab an android kernel exploitation challenge and unsolved at defcon, (challenge accepted) having solved the previous challenge, but at the time the challenge dropped I&rsquo;m touching grass in a remote location almost for a week so I couldn&rsquo;t spend time on the challenge, until 3 later I came home and endup solving it.</p>
+<p>[image from mobile hacking lab linkedin post]</p>
+<p>AI slop free article 😄</p>
+<p>These are the files in the given archive along with some instructions.</p>
+<p>[image 1]</p>
+<pre tabindex="0"><code># INSTRUCTIONS.md
 
+The challenge source code is located at ./kernel/drivers/char/ai/
+
+A debug environment has been provided to develop your exploit.
+
+Kernel hashes and config files for both remote and debug environment is also provided.
+
+NOTE: selinux is NOT turned on in the debug kernel, but it is available in the remote corellium device
+
+Debug environment creds
+- mhl:hacker
+- root:toor
+
+Copy files into debug env using scp
+- `scp -P10023 &#39;exploit&#39; &#39;mhl@localhost:/home/mhl/exploit&#39;`
+
+On remote flag file is located at /data/local/tmp/root/flag.txt
+</code></pre><p>As mentioned in the instructions at kernel/drivers/char/ai we can find the kernel driver but the Makefile at char have the following line. The driver is compiled as an intree module within the kernel.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Makefile" data-lang="Makefile"><span style="display:flex;"><span>obj-y <span style="color:#f92672">+=</span> ai/
+</span></span></code></pre></div><h1 id="vulnerability-analysis-ai_accel-driver">Vulnerability Analysis ai_accel driver<a href="#vulnerability-analysis-ai_accel-driver" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/cdev.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/device.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/slab.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/sched.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/file.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/anon_inodes.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/random.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define DEVICE_NAME &#34;ai_accel&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CLASS_NAME &#34;ai_accel&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAX_JOBS 0x50
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAX_BATCH_SIZE 1024
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAX_INPUT_SIZE 0x1000
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define CREATE_JOB   0X1337001
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define RUN_JOB      0X1337002
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define GET_FEEDBACK 0X1337003
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define STOP_JOB     0x1337004
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define READY 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define DONE  2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> ai_job {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> accel_id;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> model_type;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> batch_size;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> input_length;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> buffer;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>kthread;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int32_t</span> status;
+</span></span><span style="display:flex;"><span>} __packed;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> ai_job_params {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> model_type;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> batch_size;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> accel_id;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> buffer;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint32_t</span> length;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">struct</span> ai_job <span style="color:#f92672">*</span>jobs[MAX_JOBS];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> major;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">struct</span> class<span style="color:#f92672">*</span> mhc_class <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">struct</span> device<span style="color:#f92672">*</span> mhc_device <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">mhc_ioctl</span>(<span style="color:#66d9ef">struct</span> file <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> cmd, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> arg) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> ret <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> user_buffer[<span style="color:#ae81ff">0x500</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> ai_job <span style="color:#f92672">*</span>job <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> ai_job_params<span style="color:#f92672">*</span> params <span style="color:#f92672">=</span> (<span style="color:#66d9ef">struct</span> ai_job_params<span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>user_buffer;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">copy_from_user</span>(params, (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)arg, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> ai_job_params)))
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>accel_id <span style="color:#f92672">&gt;=</span> MAX_JOBS)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (cmd) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> CREATE_JOB: {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (jobs[params<span style="color:#f92672">-&gt;</span>accel_id]) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Job is busy</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>batch_size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> params<span style="color:#f92672">-&gt;</span>batch_size <span style="color:#f92672">&gt;</span> MAX_BATCH_SIZE)
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        job <span style="color:#f92672">=</span> (<span style="color:#66d9ef">struct</span> ai_job<span style="color:#f92672">*</span>)<span style="color:#a6e22e">kmalloc</span>(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> ai_job), GFP_KERNEL_ACCOUNT);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (job <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>accel_id <span style="color:#f92672">=</span> params<span style="color:#f92672">-&gt;</span>accel_id;
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>model_type <span style="color:#f92672">=</span> params<span style="color:#f92672">-&gt;</span>model_type;
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>batch_size <span style="color:#f92672">=</span> params<span style="color:#f92672">-&gt;</span>batch_size;
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>kthread <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)current;
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>buffer <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>status <span style="color:#f92672">=</span> READY;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        jobs[job<span style="color:#f92672">-&gt;</span>accel_id] <span style="color:#f92672">=</span> job;
+</span></span><span style="display:flex;"><span>        ret <span style="color:#f92672">=</span> job<span style="color:#f92672">-&gt;</span>accel_id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> RUN_JOB: {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>jobs[params<span style="color:#f92672">-&gt;</span>accel_id]) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Job doesn&#39;t exist</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> params<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">&gt;</span> MAX_INPUT_SIZE) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_INFO <span style="color:#e6db74">&#34;params-&gt;length %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, params<span style="color:#f92672">-&gt;</span>length);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        job <span style="color:#f92672">=</span> jobs[params<span style="color:#f92672">-&gt;</span>accel_id];
+</span></span><span style="display:flex;"><span>        job<span style="color:#f92672">-&gt;</span>input_length <span style="color:#f92672">=</span> params<span style="color:#f92672">-&gt;</span>length;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>job<span style="color:#f92672">-&gt;</span>buffer)
+</span></span><span style="display:flex;"><span>          job<span style="color:#f92672">-&gt;</span>buffer <span style="color:#f92672">=</span> <span style="color:#a6e22e">kmalloc</span>(job<span style="color:#f92672">-&gt;</span>input_length, GFP_KERNEL_ACCOUNT);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>buffer) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">copy_from_user</span>(job<span style="color:#f92672">-&gt;</span>buffer, params<span style="color:#f92672">-&gt;</span>buffer, job<span style="color:#f92672">-&gt;</span>input_length)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">kfree</span>(job<span style="color:#f92672">-&gt;</span>buffer);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          job<span style="color:#f92672">-&gt;</span>status <span style="color:#f92672">=</span> DONE;
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// The run job operation is &#34;under development&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> GET_FEEDBACK: {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>jobs[params<span style="color:#f92672">-&gt;</span>accel_id]) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Job doesn&#39;t exist</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        job <span style="color:#f92672">=</span> jobs[params<span style="color:#f92672">-&gt;</span>accel_id];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">&gt;</span> MAX_INPUT_SIZE) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">copy_to_user</span>(params<span style="color:#f92672">-&gt;</span>buffer, job<span style="color:#f92672">-&gt;</span>buffer, params<span style="color:#f92672">-&gt;</span>length)) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Copy failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> STOP_JOB: {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>jobs[params<span style="color:#f92672">-&gt;</span>accel_id]) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Job doesn&#39;t exist</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        job <span style="color:#f92672">=</span> jobs[params<span style="color:#f92672">-&gt;</span>accel_id];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (job<span style="color:#f92672">-&gt;</span>buffer)
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">kfree</span>(job<span style="color:#f92672">-&gt;</span>buffer);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">kfree</span>(job);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printk</span>(KERN_ERR <span style="color:#e6db74">&#34;ai accel: Invalid command</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>leave:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ret;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">struct</span> file_operations fops <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    .owner <span style="color:#f92672">=</span> THIS_MODULE,
+</span></span><span style="display:flex;"><span>    .unlocked_ioctl <span style="color:#f92672">=</span> mhc_ioctl,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> proc_ops proc_fops <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    .proc_ioctl <span style="color:#f92672">=</span> mhc_ioctl,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> __init <span style="color:#a6e22e">mhc_init</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    major <span style="color:#f92672">=</span> <span style="color:#a6e22e">register_chrdev</span>(<span style="color:#ae81ff">0</span>, DEVICE_NAME, <span style="color:#f92672">&amp;</span>fops);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (major <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printk</span>(KERN_ALERT <span style="color:#e6db74">&#34;[mhc] Failed to register char device</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> major;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mhc_class <span style="color:#f92672">=</span> <span style="color:#a6e22e">class_create</span>(THIS_MODULE, CLASS_NAME);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">IS_ERR</span>(mhc_class)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">unregister_chrdev</span>(major, DEVICE_NAME);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printk</span>(KERN_ALERT <span style="color:#e6db74">&#34;[mhc] Failed to create class</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">PTR_ERR</span>(mhc_class);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mhc_device <span style="color:#f92672">=</span> <span style="color:#a6e22e">device_create</span>(mhc_class, NULL, <span style="color:#a6e22e">MKDEV</span>(major, <span style="color:#ae81ff">0</span>), NULL, DEVICE_NAME);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">IS_ERR</span>(mhc_device)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">class_destroy</span>(mhc_class);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">unregister_chrdev</span>(major, DEVICE_NAME);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printk</span>(KERN_ALERT <span style="color:#e6db74">&#34;[mhc] Failed to create device</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">PTR_ERR</span>(mhc_device);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printk</span>(KERN_INFO <span style="color:#e6db74">&#34;[mhc] Module loaded: /dev/%s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, DEVICE_NAME);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> __exit <span style="color:#a6e22e">mhc_exit</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">device_destroy</span>(mhc_class, <span style="color:#a6e22e">MKDEV</span>(major, <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">class_unregister</span>(mhc_class);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">class_destroy</span>(mhc_class);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unregister_chrdev</span>(major, DEVICE_NAME);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printk</span>(KERN_INFO <span style="color:#e6db74">&#34;[mhc] Module unloaded</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module_init</span>(mhc_init);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module_exit</span>(mhc_exit);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MODULE_LICENSE</span>(<span style="color:#e6db74">&#34;GPL&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MODULE_AUTHOR</span>(<span style="color:#e6db74">&#34;Hack the Kernel&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MODULE_DESCRIPTION</span>(<span style="color:#e6db74">&#34;Hack All the Kernels&#34;</span>);
+</span></span></code></pre></div><p>A heap note in kernel noice.</p>
+<p><code>mhc_init</code> function creates the entry in /proc as /proc/ai_accel with with the <code>mhc_ioctl</code> callback for unlocked_ioctl.</p>
+<p>mhl_ioctl have a case statement of <code>CREATE_JOB</code> which creates an object of type ai_job in heap memory, the object have a member kthread which looks intresting it is set to <a href="https://elixir.bootlin.com/linux/v5.15.41/source/arch/arm64/include/asm/current.h#L24">current</a> which returns the task_struct of the userland process calling it. Another member called buffer a void pointer set to null. Each time ai_job object gets allocated the pointer is stored in jobs array  with the array length being 80 and the line prevents oob access.</p>
+<pre tabindex="0"><code>if (params-&gt;accel_id &gt;= MAX_JOBS)
+</code></pre><h1 id="bug-1-heap-oob-write-at-run_job">BUG 1: heap OOB write at RUN_JOB<a href="#bug-1-heap-oob-write-at-run_job" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p><code>RUN_JOB</code> allocates memory in heap and the pointer is set to buffer member in the ai_job object which is allocated in <code>CREATE_JOB</code> case. There is no overflow at this stage from copy_from_user since the right amount of data is copied to the heap :)  the input_length is attacker controlled but no inter bugs to trick it into a heap overflow. Then copies the user supplied data into the heap buffer.</p>
+<p>At line 4 the buffer member of ai_job object is checked for value if it&rsquo;s null then it allocates the memory using kmalloc with the attacker controlled length. If we call RUN_JOB once again with the same acel_id but with different length member the condition fails and writes OOB in heap at line 7 because it uses the existing allocation with the length we supplied in our second call which is larger than than the allocation. At exploitation phase we look into it with more detail.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ae81ff">1.</span>        job <span style="color:#f92672">=</span> jobs[params<span style="color:#f92672">-&gt;</span>accel_id];
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2.</span>        job<span style="color:#f92672">-&gt;</span>input_length <span style="color:#f92672">=</span> params<span style="color:#f92672">-&gt;</span>length;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3.</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4.</span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>job<span style="color:#f92672">-&gt;</span>buffer)
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5.</span>          job<span style="color:#f92672">-&gt;</span>buffer <span style="color:#f92672">=</span> <span style="color:#a6e22e">kmalloc</span>(job<span style="color:#f92672">-&gt;</span>input_length, GFP_KERNEL_ACCOUNT);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6.</span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>buffer) {
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">7.</span>          <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">copy_from_user</span>(job<span style="color:#f92672">-&gt;</span>buffer, params<span style="color:#f92672">-&gt;</span>buffer, job<span style="color:#f92672">-&gt;</span>input_length)) {
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8.</span>            <span style="color:#a6e22e">kfree</span>(job<span style="color:#f92672">-&gt;</span>buffer);
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">9.</span>            <span style="color:#66d9ef">goto</span> leave;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">10.</span>          }
+</span></span></code></pre></div><p>We can make arbitrary size of allocations under 4096 bytes now you know where this going.</p>
+<h1 id="bug-2-heap-oob-read-at-get_feedback">BUG 2: heap OOB read at GET_FEEDBACK<a href="#bug-2-heap-oob-read-at-get_feedback" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p><code>GET_FEEDBACK</code> case is much simpler it copies the data from the heap memory allocated at RUN_JOB case, buffer member contains the data we copied at RUN_JOB. The length member is attacker controlled and only check is greater than MAX_INPUT_SIZE which is 4096 bytes. If the allocation at RUN_JOB is smaller than 4096 bytes by using GET_FEEDBACK we get OOB read.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (params<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">&gt;</span> MAX_INPUT_SIZE) {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">copy_to_user</span>(params<span style="color:#f92672">-&gt;</span>buffer, job<span style="color:#f92672">-&gt;</span>buffer, params<span style="color:#f92672">-&gt;</span>length)) 
+</span></span></code></pre></div><h1 id="bug-3-use-after-free-at-stop_job">BUG 3: use-after-free at STOP_JOB<a href="#bug-3-use-after-free-at-stop_job" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>The UAF is straight forward, the ai_obj object allocated at CREATE_JOB and memory allocated at RUN_JOB is being freed but didn&rsquo;t set to null ended up as an dangling pointer. We can use the freed memory at RUN_JOB and GET_FEEDBACK case leads to UAF. Only condition we require to tigger is the buffer member in RUN_JOB needs to be allocated.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        job <span style="color:#f92672">=</span> jobs[params<span style="color:#f92672">-&gt;</span>accel_id];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (job<span style="color:#f92672">-&gt;</span>buffer)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">kfree</span>(job<span style="color:#f92672">-&gt;</span>buffer);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">kfree</span>(job);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span></code></pre></div><h1 id="bug-4-double-free-at-stop_job">BUG 4: double free at STOP_JOB<a href="#bug-4-double-free-at-stop_job" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>If we call STOP_JOB again it frees the memory again which turns into double free, right now it can only cause a DOS.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#a6e22e">kfree</span>(job<span style="color:#f92672">-&gt;</span>buffer);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">kfree</span>(job);
+</span></span></code></pre></div><h1 id="poc-or-get-the-fuck-off">POC or Get The Fuck Off<a href="#poc-or-get-the-fuck-off" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>There are different ways to exploit this driver, I originally solved by combining the UAF and OOB R/W to acheive AAR/W primitive and overwrite cred data structure.</p>
+<p>I modified the cpu field from cortex-a55 to cortex-a53 in the provided run.sh script, the qemu version I&rsquo;m using (with some custom instrumentation - which is a toppic for a different blog) doesn&rsquo;t have support for a55 cpu and I don&rsquo;t wan&rsquo;t to compile new one just for this challenge so I patched the script. (Later I tested with my work computer with A55 cpu, my exploit worked without changing anything)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>qemu-system-aarch64 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -machine virt <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -cpu cortex-a53 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -nographic -smp <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -hda ./rootfs.ext2 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -kernel ./kernel/arch/arm64/boot/Image <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -append <span style="color:#e6db74">&#34;console=ttyAMA0 root=/dev/vda nokaslr quiet&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -net user,hostfwd<span style="color:#f92672">=</span>tcp::10023-:22 -net nic <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -s
+</span></span></code></pre></div><p>The start script is very generic it starts an emulated instance of the kernel with a minimal file system, there is no SMAP, SMEP, KASLR or PAC mitigation to deal with.</p>
+<p>A simple poc which calls CREATE_JOB and allocates ai_job object.</p>
+<pre tabindex="0"><code></code></pre>
       </div></div>
 
   
     
 <div class="pagination">
-    <div class="pagination__title">
-        <span class="pagination__title-h"></span>
-        <hr />
-    </div>
-    <div class="pagination__buttons">
-        
-        
-        <span class="button next">
-            <a href="https://IamAlch3mist.github.io/posts/mhl_android_kernel_writeup/">
-                <span class="button__text">mobilehackinglab: android kernel writeup</span>
-                <span class="button__icon">→</span>
-            </a>
-        </span>
-        
-    </div>
+  <div class="pagination__title">
+    <span class="pagination__title-h"></span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/building_pongos/" class="button inline prev">
+        &lt; [<span class="button__text">Building pongOS In Linux</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/mhl_android_kernel_writeup/" class="button inline next">
+         [<span class="button__text">mobilehackinglab: android kernel writeup</span>] &gt;
+      </a>
+    
+  </div>
 </div>
+
 
   
 
@@ -184,7 +511,7 @@
   <div class="footer__inner">
     
       <div class="copyright">
-        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+        <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
     
       <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
       </div>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>ELF Parsing Gone Wrong: A Journey from Fuzzing to Heap Overflow&#39;s :: IamAlch3mist blogs</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="During my fuzzing of random gitHub projects, I identified a heap overflow in an ELF parser" />
+<meta name="keywords" content=", " />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/elfparser_fuzzing_heap_overflow/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="ELF Parsing Gone Wrong: A Journey from Fuzzing to Heap Overflow&#39;s">
+<meta property="og:description" content="During my fuzzing of random gitHub projects, I identified a heap overflow in an ELF parser" />
+<meta property="og:url" content="http://localhost:1313/posts/elfparser_fuzzing_heap_overflow/" />
+<meta property="og:site_name" content="IamAlch3mist blogs" />
+
+  
+  
+  <meta property="og:image" content="http://localhost:1313/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-03-19 20:05:51 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about/">`whoami`</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about/" >`whoami`</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/elfparser_fuzzing_heap_overflow/">ELF Parsing Gone Wrong: A Journey from Fuzzing to Heap Overflow&rsquo;s</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2025-03-19</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">5 min read (856 words)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="http://localhost:1313/tags/fuzzing/">Fuzzing</a>&nbsp;
+      
+      #<a href="http://localhost:1313/tags/afl&#43;&#43;/">AFL&#43;&#43;</a>&nbsp;
+      
+      #<a href="http://localhost:1313/tags/heap-overflows/">heap overflows</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="introduction">Introduction<a href="#introduction" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>I started fuzzing some random applications from github hoping to get some CVE, so rather than targetting a complex application like PDF parsers I opted to start with simple applications. As bugs could be found in parsing logic so I started the hunt with parsers for ELF, JSON, XML, etc. I choose this elf-parser <a href="https://github.com/TheCodeArtist/elf-parser">https://github.com/TheCodeArtist/elf-parser</a> to start with.</p>
+<ul>
+<li>Not much code (so i get good coverage in my low spec laptop)</li>
+<li>ELF file format is well documented</li>
+<li>9 years old project so lots of bugy code</li>
+</ul>
+<p>I hope you already have an idea about fuzzing I don&rsquo;t want to bore you with explaining the theory behind it i recommend checking the AFL docs, this blog is not a fuzzing 101 tutorial i&rsquo;m going to document my processs as i learn fuzzing and how i set up the fuzzing enviroment for the elf parser and fuzzing with the well know AFL++ fuzzer and triage analysis of few bugs i found.</p>
+<h1 id="fuzzing-setup">Fuzzing setup<a href="#fuzzing-setup" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>I choose AFL++ as my fuzzer, because in my opinion it&rsquo;s easier to get started, I&rsquo;m not really fuzzing a library so i din&rsquo;t neeed fancy in-process fuzzer like LibFuzzer. Download the latest version of AFL++ at the time of writting v4.31 was the latest i used. Follow the below instructions to install AFL++. All test&rsquo;s been ran in a 2022.04 ubuntu environment with a 6 core cpu.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade
+</span></span><span style="display:flex;"><span>sudo apt-get install -y lld-16 llvm-18 llvm-18-dev clang-18 <span style="color:#f92672">||</span> sudo apt-get install -y lld llvm llvm-dev clang
+</span></span><span style="display:flex;"><span>sudo apt-get install -y gcc-<span style="color:#66d9ef">$(</span>gcc --version|head -n1|sed <span style="color:#e6db74">&#39;s/\..*//&#39;</span>|sed <span style="color:#e6db74">&#39;s/.* //&#39;</span><span style="color:#66d9ef">)</span>-plugin-dev libstdc++-<span style="color:#66d9ef">$(</span>gcc --version|head -n1|sed <span style="color:#e6db74">&#39;s/\..*//&#39;</span>|sed <span style="color:#e6db74">&#39;s/.* //&#39;</span><span style="color:#66d9ef">)</span>-dev
+</span></span><span style="display:flex;"><span>sudo apt-get install -y ninja-build <span style="color:#75715e"># for QEMU mode</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install -y cpio libcapstone-dev llvm-18
+</span></span><span style="display:flex;"><span>sudo apt-get install -y gcc-10-plugin-dev
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/AFLplusplus/AFLplusplus/archive/refs/tags/v4.31c.tar.gz
+</span></span><span style="display:flex;"><span>tar xfv v4.31c.tar.gz
+</span></span><span style="display:flex;"><span>cd AFLplusplus-4.31c/
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><p>This steps will install AFL++ in our linux system. Now we are ready to fuzz with AFL++. If AFL++ compiled properly youll notice similar output.</p>
+<p>[Image for AFL BUILD]</p>
+<h4 id="instrumenting-elf-parser">Instrumenting elf-parser<a href="#instrumenting-elf-parser" class="hanchor" ariaLabel="Anchor">#</a> </h4>
+<p>Instrumentation is crucial for a feedback driven fuzzer like AFL++ to collect the coverage information from the target. Basically it&rsquo;s about adding tiny snippets of code to trace the basic blocks executed. It helps the fuzzer to identify whether a new code block has been hit.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/TheCodeArtist/elf-parser
+</span></span></code></pre></div><p>After cloning the target application i stared looking for the build config file basically make file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Makefile" data-lang="Makefile"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">cat</span> <span style="color:#960050;background-color:#1e0010">Makefile</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CC<span style="color:#f92672">=</span>gcc
+</span></span><span style="display:flex;"><span>CFLAGS<span style="color:#f92672">=</span> -Wall -g -I.
+</span></span><span style="display:flex;"><span>DEPS <span style="color:#f92672">=</span> elf-parser.h
+</span></span><span style="display:flex;"><span>OBJ <span style="color:#f92672">=</span> disasm.o elf-parser.o elf-parser-main.o
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c <span style="color:#66d9ef">$(</span>DEPS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c -o $@ $&lt; <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">elfparser</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJ<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        gcc -o $@ $^ <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        rm -rf *.o elfparser
+</span></span></code></pre></div><p>gcc compiler is used to compile the application, and there is not much compiler flags we have to deal with.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Makefile" data-lang="Makefile"><span style="display:flex;"><span>CC<span style="color:#f92672">=</span>afl-clang-lto
+</span></span><span style="display:flex;"><span>CFLAGS<span style="color:#f92672">=</span> -Wall -g -I.
+</span></span><span style="display:flex;"><span>DEPS <span style="color:#f92672">=</span> elf-parser.h
+</span></span><span style="display:flex;"><span>OBJ <span style="color:#f92672">=</span> disasm.o elf-parser.o elf-parser-main.o
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c <span style="color:#66d9ef">$(</span>DEPS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c -o $@ $&lt; <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">elfparser</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJ<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        afl-clang-lto -o $@ $^ <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        rm -rf *.o elfparser
+</span></span></code></pre></div><p>I made some modifications to the make files, rather than using the default compiler we need to use the compiler from AFL++. I used <strong>afl-clang-lto</strong> for less overhead and better coverage to compile the target applciation. executing make will compile the application. Additionally i didn&rsquo;t used persistent mode or parallel fuzzing, it&rsquo;s for future blogs.</p>
+<h4 id="fuzzing-elf-parser">Fuzzing elf-parser<a href="#fuzzing-elf-parser" class="hanchor" ariaLabel="Anchor">#</a> </h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>mkdir ins outs
+</span></span></code></pre></div><p>Fuzzing requires corpus basically inputs to feed to the target. AFL++ requires a seperate directory to store the corpus files I named as ins to store the input elf binary files and we need a outs derectory to keep the crash files that&rsquo;s generated by fuzzer later required for ccrash triage analysis.</p>
+<p>The corpus file im using as initial seed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>file ins/corpus1.bin
+</span></span><span style="display:flex;"><span>ins/corpus1.bin: ELF 32-bit LSB pie executable, ARM, EABI5 version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, dynamically linked, interpreter /usr/lib/ld-linux-armhf.so.3, BuildID<span style="color:#f92672">[</span>sha1<span style="color:#f92672">]=</span>022a470069956b4e5b7d48e051a5fd2305a1ae59, <span style="color:#66d9ef">for</span> GNU/Linux 3.2.0, stripped
+</span></span></code></pre></div><p>Disable the core file to avoid the anoying crash report from ubuntu.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su
+</span></span><span style="display:flex;"><span>echo core | sudo tee /proc/sys/kernel/core_pattern
+</span></span><span style="display:flex;"><span>cd /sys/devices/system/cpu
+</span></span><span style="display:flex;"><span>echo performance | tee cpu*/cpufreq/scaling_governor
+</span></span></code></pre></div><p>This will start the AFL++ to start fuzzing elfparser and you could see the beautiful AFL++ fuzzer at action and in a minute it already found around 30+ crashes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>afl-fuzz -i ins/ -o outs/ -- ./elfparser @@
+</span></span></code></pre></div><p>[Image for AFL FUZZ]</p>
+<p>I ran the fuzzer an entire night when i woke up morning the next day to find after 6 hours there are no new path have been found so i was confident enough to stop the fuzzer and started the triage analysis i got nearly 70+ crashes.</p>
+<h1 id="addresssanitizer">AddressSanitizer<a href="#addresssanitizer" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>Address sanitizer is used to detect bugs at run time especially for bugs like stack/heap buffer overflows, use-after-free, memory leaks etc.</p>
+<p>ASAN or other sanitizers make the crash triage analysis process less pain full than debugging in gdb without a context. UBSan covered in an upcoming blog.</p>
+<p>To enable ASAN I added the below flags in the makefile and recompiled with make again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Makefile" data-lang="Makefile"><span style="display:flex;"><span>CFLAGS<span style="color:#f92672">=</span> -Wall -g -I. -fsanitize<span style="color:#f92672">=</span>address
+</span></span></code></pre></div><p>Without ASAN any crash on the application will look like a segfault, we won&rsquo;t know the exact cause for it.</p>
+<p>[CRASH IMAGE WO ASAN]</p>
+<p>With ASAN enabled we get a</p>
+<h1 id="crash-triaging">Crash triaging<a href="#crash-triaging" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>find out<span style="color:#f92672">/</span><span style="color:#66d9ef">default</span><span style="color:#f92672">/</span>crashes<span style="color:#f92672">/</span> <span style="color:#f92672">-</span>type f <span style="color:#f92672">-</span>exec .<span style="color:#f92672">/</span>elfparser {} <span style="color:#960050;background-color:#1e0010">\</span>; <span style="color:#f92672">&gt;</span> crashes.txt
+</span></span></code></pre></div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h"></span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/mhl_android_kernel_writeup/" class="button inline prev">
+        &lt; [<span class="button__text">mobilehackinglab: android kernel writeup</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/nrf51_code_readout_bypass/" class="button inline next">
+         [<span class="button__text">nRF51 readback protection (RBPCONF) bypass</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

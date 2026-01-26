@@ -6,8 +6,15 @@
     <description>Recent content on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 Jun 2025 05:00:35 +0530</lastBuildDate>
+    <lastBuildDate>Mon, 26 Jan 2026 23:39:33 +0530</lastBuildDate>
     <atom:link href="https://IamAlch3mist.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building PongOS In Linux</title>
+      <link>https://IamAlch3mist.github.io/posts/building_pongos/</link>
+      <pubDate>Mon, 26 Jan 2026 23:39:33 +0530</pubDate>
+      <guid>https://IamAlch3mist.github.io/posts/building_pongos/</guid>
+      <description>A while ago I tried to build PongOS (a pre-boot execution enviroinment for checkm8 vulnerable iOS devices) on my Linux (ubuntu 24.04) machine but it didn&amp;rsquo;t compile out of the box.&#xA;DOCUMENTING IT FOR FUTURE REFERENCES.&#xA;echo &amp;#39;deb https://assets.checkra.in/debian /&amp;#39; | sudo tee /etc/apt/sources.list.d/checkra1n.list sudo apt-key adv --fetch-keys https://assets.checkra.in/debian/archive.key sudo apt update &amp;amp;&amp;amp; sudo apt install cctools-strip Download PongOS repo from github.&#xA;git clone --recursive https://github.com/checkra1n/PongoOS Download checkra1n ld64 linker.</description>
+    </item>
     <item>
       <title>mobilehackinglab: android kernel writeup</title>
       <link>https://IamAlch3mist.github.io/posts/mhl_android_kernel_writeup/</link>

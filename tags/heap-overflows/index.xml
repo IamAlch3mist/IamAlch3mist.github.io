@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Heap Overflows on IamAlch3mist blogs</title>
+    <link>http://localhost:1313/tags/heap-overflows/</link>
+    <description>Recent content in Heap Overflows on IamAlch3mist blogs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 19 Mar 2025 20:05:51 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/heap-overflows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ELF Parsing Gone Wrong: A Journey from Fuzzing to Heap Overflow&#39;s</title>
+      <link>http://localhost:1313/posts/elfparser_fuzzing_heap_overflow/</link>
+      <pubDate>Wed, 19 Mar 2025 20:05:51 +0530</pubDate>
+      <guid>http://localhost:1313/posts/elfparser_fuzzing_heap_overflow/</guid>
+      <description>Introduction I started fuzzing some random applications from github hoping to get some CVE, so rather than targetting a complex application like PDF parsers I opted to start with simple applications. As bugs could be found in parsing logic so I started the hunt with parsers for ELF, JSON, XML, etc. I choose this elf-parser https://github.com/TheCodeArtist/elf-parser to start with.&#xA;Not much code (so i get good coverage in my low spec laptop) ELF file format is well documented 9 years old project so lots of bugy code I hope you already have an idea about fuzzing I don&amp;rsquo;t want to bore you with explaining the theory behind it i recommend checking the AFL docs, this blog is not a fuzzing 101 tutorial i&amp;rsquo;m going to document my processs as i learn fuzzing and how i set up the fuzzing enviroment for the elf parser and fuzzing with the well know AFL++ fuzzer and triage analysis of few bugs i found.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>android-kernel on IamAlch3mist blogs</title>
-    <link>https://IamAlch3mist.github.io/tags/android-kernel/</link>
-    <description>Recent content in android-kernel on IamAlch3mist blogs</description>
+    <title>Android-Kernel on IamAlch3mist blogs</title>
+    <link>http://localhost:1313/tags/android-kernel/</link>
+    <description>Recent content in Android-Kernel on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 Aug 2025 19:57:56 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/android-kernel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Aug 2025 19:57:56 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/android-kernel/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>mobilehackinglab: Ai Accelerator kernel challenge writeup</title>
-      <link>https://IamAlch3mist.github.io/posts/mhl_ai_accelerator/</link>
+      <link>http://localhost:1313/posts/mhl_ai_accelerator/</link>
       <pubDate>Sun, 31 Aug 2025 19:57:56 +0530</pubDate>
-      
-      <guid>https://IamAlch3mist.github.io/posts/mhl_ai_accelerator/</guid>
-      <description>hey everyone welcome to</description>
-      <content>&lt;p&gt;hey everyone welcome to&lt;/p&gt;
-</content>
+      <guid>http://localhost:1313/posts/mhl_ai_accelerator/</guid>
+      <description>The whole secret lies in confusing the enemy, so that he cannot fathom our real intent - Sun Tzu&#xA;Introduction I came across the post from mobilehackinglab an android kernel exploitation challenge and unsolved at defcon, (challenge accepted) having solved the previous challenge, but at the time the challenge dropped I&amp;rsquo;m touching grass in a remote location almost for a week so I couldn&amp;rsquo;t spend time on the challenge, until 3 later I came home and endup solving it.</description>
     </item>
-    
   </channel>
 </rss>

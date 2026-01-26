@@ -6,126 +6,91 @@
     <description>Recent content in Tags on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 Jun 2025 05:00:35 +0530</lastBuildDate><atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Jun 2025 05:00:35 +0530</lastBuildDate>
+    <atom:link href="https://IamAlch3mist.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>android-kernel-exploit</title>
+      <title>Android-Kernel-Exploit</title>
       <link>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</link>
       <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/android-kernel-exploit/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>use-after-free</title>
+      <title>Use-After-Free</title>
       <link>https://IamAlch3mist.github.io/tags/use-after-free/</link>
       <pubDate>Fri, 06 Jun 2025 05:00:35 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/use-after-free/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>ARM reverse engineering</title>
+      <title>ARM Reverse Engineering</title>
       <link>https://IamAlch3mist.github.io/tags/arm-reverse-engineering/</link>
       <pubDate>Sat, 15 Jun 2024 01:10:42 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/arm-reverse-engineering/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>hardware hacking</title>
+      <title>Hardware Hacking</title>
       <link>https://IamAlch3mist.github.io/tags/hardware-hacking/</link>
       <pubDate>Sat, 15 Jun 2024 01:10:42 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/hardware-hacking/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>IoT security</title>
+      <title>IoT Security</title>
       <link>https://IamAlch3mist.github.io/tags/iot-security/</link>
       <pubDate>Sat, 15 Jun 2024 01:10:42 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/iot-security/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>malware development</title>
+      <title>Malware Development</title>
       <link>https://IamAlch3mist.github.io/tags/malware-development/</link>
       <pubDate>Sun, 12 May 2024 17:50:19 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/malware-development/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>reverse engineering</title>
+      <title>Reverse Engineering</title>
       <link>https://IamAlch3mist.github.io/tags/reverse-engineering/</link>
       <pubDate>Sun, 12 May 2024 17:50:19 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/reverse-engineering/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
       <title>Firmware Analysis</title>
       <link>https://IamAlch3mist.github.io/tags/firmware-analysis/</link>
       <pubDate>Sat, 07 Oct 2023 21:10:21 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/firmware-analysis/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
       <title>IoT</title>
       <link>https://IamAlch3mist.github.io/tags/iot/</link>
       <pubDate>Sat, 07 Oct 2023 21:10:21 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/iot/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>creds writeup</title>
+      <title>Creds Writeup</title>
       <link>https://IamAlch3mist.github.io/tags/creds-writeup/</link>
       <pubDate>Sat, 07 Oct 2023 21:08:00 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/creds-writeup/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
       <title>CTF</title>
       <link>https://IamAlch3mist.github.io/tags/ctf/</link>
       <pubDate>Sat, 07 Oct 2023 21:08:00 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/ctf/</guid>
       <description></description>
-      <content></content>
     </item>
-    
     <item>
-      <title>uart</title>
+      <title>Uart</title>
       <link>https://IamAlch3mist.github.io/tags/uart/</link>
       <pubDate>Sat, 07 Oct 2023 21:06:55 +0530</pubDate>
-      
       <guid>https://IamAlch3mist.github.io/tags/uart/</guid>
       <description></description>
-      <content></content>
     </item>
-    
   </channel>
 </rss>

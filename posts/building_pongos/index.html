@@ -17,44 +17,14 @@
 
 
 
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
 
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
 
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
-
   
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
-
-  
-  <link rel="stylesheet" href="https://IamAlch3mist.github.io/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+  <link rel="stylesheet" href="https://IamAlch3mist.github.io/styles.css">
 
 
 
@@ -62,8 +32,9 @@
 
 
 
-<link rel="shortcut icon" href="https://IamAlch3mist.github.io/favicon.png">
-<link rel="apple-touch-icon" href="https://IamAlch3mist.github.io/apple-touch-icon.png">
+  <link rel="shortcut icon" href="https://IamAlch3mist.github.io/img/theme-colors/green.png">
+  <link rel="apple-touch-icon" href="https://IamAlch3mist.github.io/img/theme-colors/green.png">
+
 
 
 <meta name="twitter:card" content="summary" />
@@ -98,18 +69,24 @@
 
 
 
+
+  
+
+
 </head>
-<body>
+<body class="green">
 
 
-<div class="container center">
+
+
+<div class="container center headings--one-size">
 
   <header class="header">
   <div class="header__inner">
     <div class="header__logo">
       <a href="https://IamAlch3mist.github.io/">
   <div class="logo">
-    Terminal
+    re-Terminal
   </div>
 </a>
 
@@ -137,6 +114,7 @@
   <ul class="navigation-menu__inner menu--desktop">
     
       
+      
         
           <li><a href="/about/" >`whoami`</a></li>
         
@@ -156,7 +134,9 @@
   <h1 class="post-title">
     <a href="https://IamAlch3mist.github.io/posts/building_pongos/">Building PongOS In Linux</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2026-01-26</time><span class="post-author">IamAlch3mist</span><span class="post-reading-time">2 min read (291 words)</span></div>
+  <div class="post-meta"><time class="post-date">2026-01-26</time><span class="post-author">IamAlch3mist</span>
+    
+<span class="post-reading-time">2 min read (291 words)</span></div>
 
   
     <span class="post-tags">
@@ -172,48 +152,49 @@
   
 
 
+
   
 
   <div class="post-content"><div>
         <p>A while ago I tried to build PongOS (a pre-boot execution enviroinment for checkm8 vulnerable iOS devices) on my Linux (ubuntu 24.04) machine but it didn&rsquo;t compile out of the box.</p>
 <p>DOCUMENTING IT FOR FUTURE REFERENCES.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;deb https://assets.checkra.in/debian /&#39;</span> | sudo tee /etc/apt/sources.list.d/checkra1n.list
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;deb https://assets.checkra.in/debian /&#39;</span> | sudo tee /etc/apt/sources.list.d/checkra1n.list
 </span></span><span style="display:flex;"><span>sudo apt-key adv --fetch-keys https://assets.checkra.in/debian/archive.key
 </span></span><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt install cctools-strip
 </span></span></code></pre></div><p>Download PongOS repo from github.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone --recursive https://github.com/checkra1n/PongoOS
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone --recursive https://github.com/checkra1n/PongoOS
 </span></span></code></pre></div><p>Download checkra1n ld64 linker.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/checkra1n/ld64-build/releases/download/954.16-0/ld64-x86_64 -o /usr/bin/ld64
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/checkra1n/ld64-build/releases/download/954.16-0/ld64-x86_64 -o /usr/bin/ld64
 </span></span></code></pre></div><p>Apply the below patches.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-patch" data-lang="patch"><span style="display:flex;"><span>diff --git a/src/kernel/task.c b/src/kernel/task.c
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-patch" data-lang="patch"><span style="display:flex;"><span>diff --git a/src/kernel/task.c b/src/kernel/task.c
 </span></span><span style="display:flex;"><span>index 0e6fa22..3ffffd1 100644
 </span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/src/kernel/task.c
-</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/src/kernel/task.c
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -27,6 +27,7 @@
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> #include &lt;errno.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+++ b/src/kernel/task.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">@@ -27,6 +27,7 @@
+</span></span></span><span style="display:flex;"><span> #include &lt;errno.h&gt;
 </span></span><span style="display:flex;"><span> #include &lt;stdlib.h&gt;
 </span></span><span style="display:flex;"><span> #include &lt;pongo.h&gt;
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">+#include &lt;stdarg.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span> extern void task_load(struct task* to_task);
 </span></span><span style="display:flex;"><span> extern void task_load_asserted(struct task* to_task);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-patch" data-lang="patch"><span style="display:flex;"><span>diff --git a/Makefile b/Makefile
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-patch" data-lang="patch"><span style="display:flex;"><span>diff --git a/Makefile b/Makefile
 </span></span><span style="display:flex;"><span>index 38bef74..cdd9391 100644
 </span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/Makefile
-</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/Makefile
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -52,7 +52,7 @@ RA1N                    := checkra1n/kpf
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+++ b/Makefile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">@@ -52,7 +52,7 @@ RA1N                    := checkra1n/kpf
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span> # General options
 </span></span><span style="display:flex;"><span> EMBEDDED_LD_FLAGS       ?= -nostdlib -static -Wl,-fatal_warnings -Wl,-dead_strip -Wl,-Z $(EMBEDDED_LDFLAGS)
 </span></span><span style="display:flex;"><span><span style="color:#f92672">-EMBEDDED_CC_FLAGS       ?= --target=arm64-apple-ios12.0 -std=gnu17 -Wall -Wunused-label -Werror -O3 -flto -ffreestanding -U__nonnull -nostdlibinc -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -I$(LIB)/include $(EMBEDDED_LD_FLAGS) $(EMBEDDED_CFLAGS)
-</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+EMBEDDED_CC_FLAGS       ?= --target=arm64-apple-ios12.0 -std=gnu17 -Wall -Wunused-label -Wunused-but-set-variable -O3 -flto -ffreestanding -U__nonnull -nostdlibinc -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -I$(LIB)/include $(EMBEDDED_LD_FLAGS) $(EMBEDDED_CFLAGS)
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+EMBEDDED_CC_FLAGS       ?= --target=arm64-apple-ios12.0 -std=gnu17 -Wall -Wunused-label -Wunused-but-set-variable -O3 -flto -ffreestanding -U__nonnull -nostdlibinc -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -I$(LIB)/include $(EMBEDDED_LD_FLAGS) $(EMBEDDED_CFLAGS)
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span> # Pongo options
 </span></span><span style="display:flex;"><span> PONGO_LDFLAGS           ?= -L$(LIB)/lib -lc -lm -Wl,-preload -Wl,-no_uuid -Wl,-e,start -Wl,-order_file,$(SRC)/sym_order.txt -Wl,-image_base,0x100000000 -Wl,-sectalign,__DATA,__common,0x8 -Wl,-segalign,0x4000
 </span></span></code></pre></div><p>Use clang-15 to compile.</p>
 <pre tabindex="0"><code>EMBEDDED_CC=clang-15 EMBEDDED_LDFLAGS=&#34;-fuse-ld=/usr/bin/ld64 -fno-lto&#34; STRIP=cctools-strip make -j1 all
 </code></pre><p>After building PongOS binaries can be found in build/ dir.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la build/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la build/
 </span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">2228</span>
 </span></span><span style="display:flex;"><span>drwxrwxr-x  <span style="color:#ae81ff">2</span> puck puck   <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">26</span> 23:59 .
 </span></span><span style="display:flex;"><span>drwxrwxr-x <span style="color:#ae81ff">14</span> puck puck   <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">26</span> 23:58 ..
@@ -224,7 +205,7 @@
 </span></span><span style="display:flex;"><span>-rwxrwxr-x  <span style="color:#ae81ff">1</span> puck puck  <span style="color:#ae81ff">16824</span> Jan <span style="color:#ae81ff">26</span> 23:58 vmacho
 </span></span></code></pre></div><p>Boot the pongOS binary using checkra1n loader.</p>
 <pre tabindex="0"><code>checkra1n -k Pongo.bin
-</code></pre><h1 id="references">References<a href="#references" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+</code></pre><h1 id="references">References<a href="#references" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <ul>
 <li><a href="https://github.com/checkra1n/PongoOS">https://github.com/checkra1n/PongoOS</a></li>
 <li><a href="https://github.com/checkra1n/PongoOS/issues/85#issuecomment-881963954">https://github.com/checkra1n/PongoOS/issues/85#issuecomment-881963954</a></li>
@@ -235,27 +216,29 @@
   
     
 <div class="pagination">
-  <div class="pagination__title">
-    <span class="pagination__title-h"></span>
-    <hr />
-  </div>
-  <div class="pagination__buttons">
-    
-      <a href="https://IamAlch3mist.github.io/posts/airtel_bugs/" class="button inline prev">
-        &lt; [<span class="button__text">A Tale of Broken Firmware: Achieving RCE on Airtel&#39;s Hardware</span>]
-      </a>
-    
-    
-      ::
-    
-    
-      <a href="https://IamAlch3mist.github.io/posts/mhl_android_kernel_writeup/" class="button inline next">
-         [<span class="button__text">mobilehackinglab: android kernel writeup</span>] &gt;
-      </a>
-    
-  </div>
+    <div class="pagination__title">
+        <span class="pagination__title-h"></span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://IamAlch3mist.github.io/posts/airtel_bugs/">
+                <span class="button__icon">←</span>
+                <span class="button__text">A Tale of Broken Firmware: Achieving RCE on Airtel&#39;s Hardware</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://IamAlch3mist.github.io/posts/mhl_android_kernel_writeup/">
+                <span class="button__text">mobilehackinglab: android kernel writeup</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
 </div>
-
 
   
 
@@ -274,7 +257,7 @@
       <div class="copyright">
         <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
     
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
       </div>
   </div>
 </footer>
@@ -285,6 +268,9 @@
 
 
 <script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
 
 
 

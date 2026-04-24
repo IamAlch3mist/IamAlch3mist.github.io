@@ -6,8 +6,15 @@
     <description>Recent content in Posts on IamAlch3mist blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Jan 2026 23:39:33 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 24 Apr 2026 20:28:00 +0530</lastBuildDate>
     <atom:link href="https://IamAlch3mist.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Tale of Broken Firmware: Achieving RCE on Airtel&#39;s Hardware</title>
+      <link>https://IamAlch3mist.github.io/posts/airtel_bugs/</link>
+      <pubDate>Fri, 24 Apr 2026 20:28:00 +0530</pubDate>
+      <guid>https://IamAlch3mist.github.io/posts/airtel_bugs/</guid>
+      <description>Introduction Responsible disclosure is a cornerstone of security research, but the process can sometimes be incredibly frustrating. In early 2023, I independently discovered a critical Remote Code Execution (RCE) vulnerability in the Airtel ASEE 1447 fiber router.&#xA;When I initially reached out to report the vulnerabilities, the vendor claimed verbally that they were already aware of the issues. However, after multiple follow-ups yielded absolutely no response or action, I submitted another formal report to ensure there was a clear paper trail.</description>
+    </item>
     <item>
       <title>Building PongOS In Linux</title>
       <link>https://IamAlch3mist.github.io/posts/building_pongos/</link>

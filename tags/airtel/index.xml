@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Airtel on IamAlch3mist blogs</title>
+    <link>https://IamAlch3mist.github.io/tags/airtel/</link>
+    <description>Recent content in Airtel on IamAlch3mist blogs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 24 Apr 2026 20:28:00 +0530</lastBuildDate>
+    <atom:link href="https://IamAlch3mist.github.io/tags/airtel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Tale of Broken Firmware: Achieving RCE on Airtel&#39;s Hardware</title>
+      <link>https://IamAlch3mist.github.io/posts/airtel_bugs/</link>
+      <pubDate>Fri, 24 Apr 2026 20:28:00 +0530</pubDate>
+      <guid>https://IamAlch3mist.github.io/posts/airtel_bugs/</guid>
+      <description>Introduction Responsible disclosure is a cornerstone of security research, but the process can sometimes be incredibly frustrating. In early 2023, I independently discovered a critical Remote Code Execution (RCE) vulnerability in the Airtel ASEE 1447 fiber router.&#xA;When I initially reached out to report the vulnerabilities, the vendor claimed verbally that they were already aware of the issues. However, after multiple follow-ups yielded absolutely no response or action, I submitted another formal report to ensure there was a clear paper trail.</description>
+    </item>
+  </channel>
+</rss>
